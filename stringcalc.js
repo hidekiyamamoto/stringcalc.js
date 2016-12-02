@@ -73,11 +73,14 @@ stringcalc={decimalsign:',',
 		if(r>0){'-'+cc[0];}r=0;
 	 return cc[0]+cc[1];
 	},
-	mul:function(a,b){var minus=false;var o='0';var oo='';var r=0;var rr=0;a=this.normalize(a);b=this.normalize(b);var y;var z=0;
+	mul:function(a,b){var minus=false;var o='0';var oo='';var r=0;var rr=0;a=this.normalize(a);b=this.normalize(b);var y;var z=0;var commapos=0;
 		if(a.indexOf('-')>-1){minus=true;a=a.replace('-','')}if(b.indexOf('-')>-1){minus=!minus;b=b.replace('-','')}
+		y=a.indexOf(this.decimalsign);if(y>-1){commapos=a.substring(y+1).length;console.log(commapos);a=a.replace(this.decimalsign,'');if(y==0){commapos=commapos+1;}}
+		y=b.indexOf(this.decimalsign);if(y>-1){commapos=commapos+b.substring(y+1).length;b=b.replace(this.decimalsign,'');if(y==0){commapos=commapos+1;}}
 		for(var x=b.length-1;x>-1;x--){oo='';for(y=0;y<z;y++){oo=oo+'0'}z++;r=0;for(y=a.length-1;y>-1;y--){r=r+(parseInt(b[x])*parseInt(a[y]));
 			rr=(r%10);r=r-rr;oo=rr.toString()+oo;
 		}if(r>0){oo=r.toString()+oo;}o=this.sum(o,oo);}
+		if(commapos){o=o.substring(0,o.length-commapos)+this.decimalsign+o.substring(o.length-commapos)}
 		if(minus){return '-'+o}return o;
 	},
 };
